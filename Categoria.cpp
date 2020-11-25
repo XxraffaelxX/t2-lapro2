@@ -31,7 +31,7 @@ int Categoria::obtemTipo(){
   return tipo;
 }
 string Categoria::str(){
-
+  //return nome;
 }
 void Categoria::adicionaFilme(Filme *f,bool v){
   

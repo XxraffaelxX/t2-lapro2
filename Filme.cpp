@@ -12,10 +12,10 @@ string Filme::obtemNome(){
   return nome;
 }
 virtual string Filme::str(){
-
+  return nome;
 }
 virtual string Filme::csv(){
-  
+  return nome;
 }
 int Filme::obtemNumIndicacoes(){
   return numIndicacoes;
