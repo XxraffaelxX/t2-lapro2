@@ -9,7 +9,7 @@ class FilmeComplemento : public Filme {
 private:
     string complemento;
 public:
-    FilmeComplemento(string n = "", string c = "") ;
+    FilmeComplemento(string n = "", string c= "") ;
     void defineComplemento(string c);
     string obtemComplemento();
     string str();

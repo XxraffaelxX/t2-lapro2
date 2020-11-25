@@ -16,8 +16,12 @@ public:
     Filme(string n = "") ;
     void defineNome(string n);
     string obtemNome();
-    virtual string str();
-    virtual string csv();
+    virtual string Filme::str(){
+       return nome;
+    }
+    virtual string Filme::csv(){
+      return nome;
+    }
     int obtemNumIndicacoes();
     int obtemNumPremiacoes();
     void maisUmaIndicacao();

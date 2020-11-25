@@ -1,6 +1,6 @@
 #include "Categoria.hpp"
-
-Categoria::Categoria(string n = "", int a = 0, int t = 0){
+#include <sstream>
+Categoria::Categoria(string n , int a , int t ){
   nome = n;
   ano = a;
   tipo = t;
@@ -31,10 +31,16 @@ int Categoria::obtemTipo(){
   return tipo;
 }
 string Categoria::str(){
-  //return nome;
+  stringstream ss;
+      ss<<obtemNome()<<"  (";
+      ss<<obtemAno()<<")"<<endl;   
+    return ss.str();
 }
-void Categoria::adicionaFilme(Filme *f,bool v){
-  
+void Categoria::adicionaFilme(Filme *f,bool v){  
+    filmes.push_back(f);
+    int i=0;
+    for (vector<Filme*>::iterator it = filmes.begin ();it!= filmes.end();++it)i++;
+    if(v == true)ehVencedor(i);
 }
 int Categoria::numFilmes(){
   
