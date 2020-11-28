@@ -4,6 +4,7 @@
 #define _FILMECOMPLEMENTO_HPP_
 
 #include "Filme.hpp"
+using namespace std;
 
 class FilmeComplemento : public Filme {
 private:

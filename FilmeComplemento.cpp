@@ -1,6 +1,8 @@
 #include "FilmeComplemento.hpp"
 #include <sstream>
 
+using namespace std;
+
 FilmeComplemento::FilmeComplemento(string n , string c ) {
   nome = n;
   complemento = c;
@@ -19,7 +21,7 @@ string FilmeComplemento::str(){
 }
 string FilmeComplemento::csv(){
   stringstream csv;
-      csv<<obtemNome()<<" # ";
+      csv<<obtemNome()<<"#";
       csv<<obtemComplemento()<<endl;   
     return csv.str();
 }

@@ -1,5 +1,5 @@
 #include "Filme.hpp"
-
+using namespace std;
 Filme::Filme(string n ){
   nome = n;
   numIndicacoes = 0;

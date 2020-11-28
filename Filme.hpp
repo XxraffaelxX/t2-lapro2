@@ -4,6 +4,7 @@
 #define _FILME_HPP_
 
 #include <string>
+//#include "FilmeComplemento.hpp"
 
 using namespace std;
 
@@ -16,10 +17,10 @@ public:
     Filme(string n = "") ;
     void defineNome(string n);
     string obtemNome();
-    virtual string Filme::str(){
+    virtual string str(){
        return nome;
     }
-    virtual string Filme::csv(){
+    virtual string csv(){
       return nome;
     }
     int obtemNumIndicacoes();
