@@ -1,5 +1,5 @@
 // main.cpp (Roland Teodorowitsch / Raffael Rocha Daltoé; 16 nov. 2020)
-
+#include <iostream>
 #include "Aplicacao.hpp"
 #include "Filme.hpp"
 #include "FilmeComplemento.hpp"
@@ -9,16 +9,23 @@ void inicializacao(Aplicacao *app) {
     Categoria *c;
 
     c = new Categoria("Melhor filme",2020);
+    //cout<<"1 Cheguei"<<endl;
     c->adicionaFilme(new Filme("O Irlandês"),false);
+    //cout<<"2 Cheguei"<<endl;
     c->adicionaFilme(new Filme("Adoráveis Mulheres"),false);
+    //cout<<"3 Cheguei"<<endl;
     c->adicionaFilme(new Filme("Era Uma Vez em... Hollywood"),false);
+    //cout<<"4 Cheguei"<<endl;
     c->adicionaFilme(new Filme("Parasita"),true);
+    //cout<<"5 Cheguei"<<endl;
     c->adicionaFilme(new Filme("História de um Casamento"),false);
     c->adicionaFilme(new Filme("1917"),false);
     c->adicionaFilme(new Filme("Coringa"),false);
     c->adicionaFilme(new Filme("Ford vs Ferrari"),false);
     c->adicionaFilme(new Filme("Jojo Rabbit"),false);
+    //cout<<"6 Cheguei"<<endl; 
     app->adicionaCategoria(c);
+    //cout<<"Cheguei"<<endl;
 
     c = new Categoria("Melhor atriz",2020,1);
     c->adicionaFilme(new FilmeComplemento("Adoráveis Mulheres","Saoirse Ronan"),false);
@@ -214,10 +221,10 @@ int main() {
     delete app;
     
     app = new Aplicacao();
-    app->carregaCSV("oscar2020.csv");
-    app->relatorioVencedores();
-    app->relatorioIndicacoes();
-    app->relatorioPremiacoes();
+    //app->carregaCSV("oscar2020.csv");
+    //app->relatorioVencedores();
+   // app->relatorioIndicacoes();
+    //app->relatorioPremiacoes();
     delete app;
     
     return 0;

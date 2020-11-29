@@ -42,7 +42,7 @@ string Categoria::str(){
 void Categoria::adicionaFilme(Filme *f,bool v){  
   filmes.push_back(f);
   if(v == true)vencedor=1;
-  else vencedor =0;
+  vencedor =0;
 }
 int Categoria::numFilmes(){
   int i=0;

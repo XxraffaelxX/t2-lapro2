@@ -14,7 +14,7 @@ private:
 public:
     Aplicacao();
     ~Aplicacao();
-    void adicionaCategoria(Categoria *);
+    void adicionaCategoria(Categoria *c);
     bool salvaCSV(string nomeArquivo);
     bool carregaCSV(string nomeArquivo);
     void relatorioVencedores();
