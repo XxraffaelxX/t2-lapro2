@@ -45,7 +45,7 @@ void Categoria::adicionaFilme(Filme *f,bool v){
   if(v == true){
     vencedor=1;
     f->maisUmaPremiacao();
-    //f->maisUmaIndicacao();
+    f->maisUmaIndicacao();
   }
   vencedor =0;
 }

@@ -216,7 +216,7 @@ int main() {
     //app = new Aplicacao();
     //app->carregaCSV("oscar2020.csv");
     app->relatorioVencedores();
-    //app->relatorioIndicacoes();
+    app->relatorioIndicacoes();
     //app->relatorioPremiacoes();
     delete app;
     

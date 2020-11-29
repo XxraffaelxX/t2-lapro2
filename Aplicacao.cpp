@@ -2,6 +2,8 @@
 #include <fstream>
 #include <iostream>
 #include "FilmeComplemento.hpp"
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -117,17 +119,24 @@ void Aplicacao::relatorioVencedores(){
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }
+
 void Aplicacao::relatorioIndicacoes(){
   int i=0;
   vector<Filme *> aux;
-  cout<<endl<<"Relatório dos Vencedores:" <<endl<<endl;
+  cout<<endl<<"Relatório dos Indicacoes:" <<endl<<endl;
   for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
-    aux.push_back(categorias[i]->obtem());
-    cout<<aux[i]->str()<<endl;
+    aux.push_back(categorias[i]->obtemFilmeVencedor()); //adiciona o filme c/ indicacao em aux
+    i++;
+  }
+  std::sort(aux.begin(),aux.end());//sorteia
+  i=0;
+  for(vector<Filme*>::iterator it = aux.begin ();it!= aux.end();++it){
+    cout<<aux[i]->str()<<";"<<aux[i]->obtemNumIndicacoes()<<endl;
     i++;
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }
+
 void Aplicacao::relatorioPremiacoes(){
   
 }
