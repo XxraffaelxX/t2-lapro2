@@ -9,22 +9,22 @@ Aplicacao::Aplicacao(){
 
 }
 Aplicacao::~Aplicacao(){
-  //categorias.erase(categorias.begin(),categorias.end());
   categorias.clear();
 }
 void Aplicacao::adicionaCategoria(Categoria *c){
-  int i=0;
-  for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it)i++;
-  c->defineNome(c->obtemNome());
+  categorias.push_back(c);
 }
 bool Aplicacao::salvaCSV(string nomeArquivo){
   int i=0;
   fstream fp;
-  fp.open(nomeArquivo,ios::ate);
-  if(!fp.is_open())return false;
-  else{
+  fp.open(nomeArquivo,ios::out);
+  if(!fp.is_open()){
+    cout<<"abertura do arquivo houve algum problema"<<endl;
+    return false;
+  }
+  else{ 
     for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
-      fp<<categorias[i]->geraCSV()<<endl;
+      fp<<categorias[i]->geraCSV();
       i++;
     }
     fp.close();
@@ -107,14 +107,26 @@ bool Aplicacao::carregaCSV(string nomeArquivo){
   }
 }
 void Aplicacao::relatorioVencedores(){
-  int k=0;
+  int i=0;
+  vector<Filme *> aux;
+  cout<<endl<<"Relatório dos Vencedores:" <<endl<<endl;
   for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
-    
-    k++;
+    aux.push_back(categorias[i]->obtemFilmeVencedor()); //adiciona o filme vencedor em aux
+    cout<<aux[i]->str()<<endl;
+    i++;
   }
+  cout<<endl<<"|*********************************************|"<<endl;
 }
 void Aplicacao::relatorioIndicacoes(){
-
+  int i=0;
+  vector<Filme *> aux;
+  cout<<endl<<"Relatório dos Vencedores:" <<endl<<endl;
+  for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
+    aux.push_back(categorias[i]->obtem());
+    cout<<aux[i]->str()<<endl;
+    i++;
+  }
+  cout<<endl<<"|*********************************************|"<<endl;
 }
 void Aplicacao::relatorioPremiacoes(){
   

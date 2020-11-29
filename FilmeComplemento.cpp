@@ -16,12 +16,12 @@ string FilmeComplemento::obtemComplemento(){
 string FilmeComplemento::str(){
   stringstream ss;
       ss<<obtemNome()<<" - ";
-      ss<<obtemComplemento()<<endl;   
+      ss<<obtemComplemento();   
     return ss.str();
 }
 string FilmeComplemento::csv(){
   stringstream csv;
       csv<<obtemNome()<<"#";
-      csv<<obtemComplemento()<<endl;   
+      csv<<obtemComplemento();   
     return csv.str();
 }

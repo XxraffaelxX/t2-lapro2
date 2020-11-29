@@ -1,5 +1,6 @@
 #include "Categoria.hpp"
 #include <sstream>
+#include <iostream>
 using namespace std;
 
 Categoria::Categoria(string n , int a , int t ){
@@ -40,8 +41,12 @@ string Categoria::str(){
     return ss.str();
 }
 void Categoria::adicionaFilme(Filme *f,bool v){  
-  filmes.push_back(f);
-  if(v == true)vencedor=1;
+  filmes.push_back(f);  
+  if(v == true){
+    vencedor=1;
+    f->maisUmaPremiacao();
+    //f->maisUmaIndicacao();
+  }
   vencedor =0;
 }
 int Categoria::numFilmes(){
@@ -68,7 +73,7 @@ int Categoria::obtemIndiceFilmeVencedor(){
 Filme *Categoria::obtemFilmeVencedor(){
   int i=0;
   for (vector<Filme*>::iterator it = filmes.begin ();it!= filmes.end();++it){
-    if(filmes[i]->obtemNumPremiacoes() ==1 )return filmes[i];
+    if(filmes[i]->obtemNumPremiacoes() == 1 )return filmes[i];
     i++;
   }
   return nullptr;
@@ -77,13 +82,13 @@ string Categoria::geraCSV(){
   stringstream csv;
   int i=0;
   for (vector<Filme*>::iterator it = filmes.begin ();it!= filmes.end();++it){
-      csv<<nome<<";"<<ano<<";"<<tipo<<";"<<filmes[i]->obtemNome()<<";";
-      csv<<filmes[i]->obtemNumPremiacoes()<<endl;
-      /*if(tipo >= 1)csv<<"#"<<filmes[i]->
-      csv<<";"<<filmes[i]->obtemNumPremiacoes()<<endl;
+      csv<<obtemNome()<<";"<<obtemAno()<<";"<<obtemTipo()<<";";    
+      if(obtemTipo() == 1){
+        csv<<filmes[i]->csv()<<";"<<filmes[i]->obtemNumPremiacoes()<<endl;
+      }
       else{
-        csv<<";"<<filmes[i]->obtemNumPremiacoes()<<endl;
-      }*/
+        csv<<filmes[i]->obtemNome()<<";"<<filmes[i]->obtemNumPremiacoes()<<endl;
+      }
       i++;
   }
   return csv.str();
