@@ -7,9 +7,7 @@
 
 using namespace std;
 
-Aplicacao::Aplicacao(){
-
-}
+Aplicacao::Aplicacao(){}
 Aplicacao::~Aplicacao(){
   categorias.clear();
 }
@@ -33,105 +31,118 @@ bool Aplicacao::salvaCSV(string nomeArquivo){
     return true;
   }
 }
+
 bool Aplicacao::carregaCSV(string nomeArquivo){
   int i=0,j=0,identificador=0;
   fstream fp;
   fp.open(nomeArquivo,ios::in);
   if(!fp.is_open())return false;
   else{
-    int k=0;
-    string define="";
+    int k=0,flag=0;
+    Categoria *c;
+    string categ="",ano="",comple="",filme="",indicacao="";
     string aux=""; // string auxiliar
     while(!fp.eof()){
+      flag=0;
       getline(fp,aux); // pega a linha do arq
+      //cout<<aux<<endl;
       i=0;
       j=i; // j pega o valor atual de i 
-      while(aux[i]!= '\n'){ // enquanto for diferente do quebra de linha
-        while(aux[i]!= ';')i++; // se o indice da palavra for diferente de ';', i++
-        if(aux[i] == ';' && identificador == 0){ // categorias  
-          define.assign(aux,0,i-1); // copia o aux para define
-          j =i;
-          int v=0;  // variavel auxiliar
-          vector<Categoria*>::iterator it = categorias.begin (); // cit assume o começo do vector
-          for(;it!= categorias.end();++it){//inicia no começo e vai até o fim do vetor
-            if(categorias[v]->obtemNome() == define){identificador++;i++;break;} // se achou o nome, break
-            v++; // avança o auxiliar até tentar achar
-          }
-          if(it == categorias.end() && identificador == 0){ // se não achou, e o it é igual ao fim
-            categorias[k]->defineNome(define); // define o nome 
-            identificador++; // avança o identificador 
-            i++;
-            continue;
+      while(1){ // enquanto for diferente do quebra de linha
+        //cout<<"1- aux[i]= "<<aux[i]<<endl;
+        while(aux[i]!=';')i++; // nome da categ
+        categ.assign(aux,j,i);
+        i++;
+        j=i;
+        while(aux[i]!=';')i++; // ano
+        ano.assign(aux,j,i-j);
+        int aninho = stoi(ano);
+        i++;
+        j=i;
+        while(aux[i]!=';')i++; // complemento
+        comple.assign(aux,j,i-j);
+        i++;
+        j=i;
+        for(int i=0;i<categorias.size();i++){
+          if(categorias[i]->obtemNome() == categ){// se ja existir a categoria
+            flag++;
+            break;
           }
         }
-        else if(aux[i] == ';' && identificador == 1){ // ano
-          define.assign(aux,j+1,i-1);
-          j=i;
-          i++;
-          int aux = stoi(define);
-          categorias[k]->defineAno(aux);
-          identificador++;
-          continue;
+        if(flag ==0){ // se não, vai la e cria ela
+          c = new Categoria(categ,aninho);          
+          adicionaCategoria(c); 
         }
-        else if(aux[i] == ';' && identificador == 2){ // complemento + filme + vencedor
-          if(aux[i+1] == '1'){ // para pegar o complemento
+          if(comple == "1"){ // se tiver complemento
             while(aux[i]!= '#')i++;
-            define.assign(aux,j+1,i-1);
-            j=i;
-            i++;
-            while(aux[i]!= ';') i++;
-            string define_complemento;
-            define_complemento.assign(aux,j+1,i-1); // complemento
-            if( aux[i+1] == '1'){ // é vencedor da categoria
-              categorias[k]->adicionaFilme(new FilmeComplemento(define,define_complemento),true);
-            }
-            else{ // não é vencedor da categoria
-              categorias[k]->adicionaFilme(new FilmeComplemento(define,define_complemento),false);
-            }
+              filme.assign(aux,j,i-j); 
+              //cout<<"1- peguei o filme = "<<filme<<endl;
+              i++;
+              j=i;
+              //i++;
+              while(aux[i]!= ';') i++;
+              string define_complemento;
+              define_complemento.assign(aux,j,i-j); // 
+              //cout<<"aux = "<<aux[i]<<endl;
+              
+              if( aux[i] == '1'){ // é vencedor da categoria
+                c->adicionaFilme(new FilmeComplemento(filme,define_complemento),true);
+              }
+              else{ // não é vencedor da categoria
+                c->adicionaFilme(new FilmeComplemento(filme,define_complemento),false);
+              }
           }
-          else{ //não tem complemento
-            while(aux[i]!= ';') i++;
-            define.assign(aux,j+1,i-1);
-             if( aux[i+1] == '1'){ // é vencedor da categoria
-              categorias[k]->adicionaFilme(new Filme(define),true);
-            }
-            else{ // não é vencedor da categoria
-              categorias[k]->adicionaFilme(new Filme(define),false);
-            }
+          else{
+            while(aux[i]!= ';')i++;
+              filme.assign(aux,j,i-j);
+              //cout<<"2- peguei o filme = "<<filme<<endl;
+              i++; 
+              j=i;
+              //cout<<"aux[i] = "<<aux[i]<<endl;
+              if( aux[i] == '1'){ // é vencedor da categoria
+                c->adicionaFilme(new Filme(filme),true);
+              }
+              else{ // não é vencedor da categoria
+                c->adicionaFilme(new Filme(filme),false);
+              }
           }
-          k++;
-          identificador =0;
-        }
-        i++;        
-      }   
+          break; // terminou de pegar a linha aqui
+      }
     }
-    return true;
   }
+  return true;
 }
+
 void Aplicacao::relatorioVencedores(){
-  int i=0;
-  vector<Filme *> aux;
+  Filme *aux;
   cout<<endl<<"Relatório dos Vencedores:" <<endl<<endl;
-  for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
-    aux.push_back(categorias[i]->obtemFilmeVencedor()); //adiciona o filme vencedor em aux
-    cout<<aux[i]->str()<<endl;
-    i++;
+  for(int i=0;i<categorias.size();++i){
+    aux = categorias[i]->obtemFilmeVencedor(); //adiciona o filme vencedor em aux
+    if(aux != nullptr)cout<<aux->obtemNome()<<endl;
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }
 
 void Aplicacao::relatorioIndicacoes(){
-  int i=0;
+  int i=0,j=0;
   vector<Filme *> aux;
   cout<<endl<<"Relatório dos Indicacoes:" <<endl<<endl;
   for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
-    aux.push_back(categorias[i]->obtemFilmeVencedor()); //adiciona o filme c/ indicacao em aux
-    i++;
+    while(categorias[i]->obtemFilme(j)!=nullptr){
+      aux.push_back(categorias[i]->obtemFilme(j)); //adiciona o filme c/ indicacao em aux
+      j++;
+    }    
+    sort(aux.begin(),aux.end());
+    //sort(aux.begin(),aux.end(),categorias[i]->operator==(*categorias[i]));//sorteia
+      j=0;
+      i++;
   }
-  std::sort(aux.begin(),aux.end());//sorteia
+  //sort(aux.begin(),aux.end());//sorteia
+  //cout<<std::is_sorted(aux.begin(),aux.end())<<endl;
   i=0;
   for(vector<Filme*>::iterator it = aux.begin ();it!= aux.end();++it){
-    cout<<aux[i]->str()<<";"<<aux[i]->obtemNumIndicacoes()<<endl;
+    if(it+1 == aux.end()-1)break;
+    cout<<aux[i]->str()<<";"<<aux[i]->obtemNumPremiacoes()<<endl;
     i++;
   }
   cout<<endl<<"|*********************************************|"<<endl;

@@ -7,7 +7,8 @@ Categoria::Categoria(string n , int a , int t ){
   nome = n;
   ano = a;
   tipo = t;
-  vencedor = 0;
+  if(tipo == 0)vencedor = 0;
+  vencedor = 1;
 }
 Categoria::~Categoria(){
   nome = "";
@@ -45,7 +46,7 @@ void Categoria::adicionaFilme(Filme *f,bool v){
   if(v == true){
     vencedor=1;
     f->maisUmaPremiacao();
-    f->maisUmaIndicacao();
+    //f->maisUmaIndicacao();
   }
   vencedor =0;
 }
@@ -65,16 +66,15 @@ bool Categoria::ehVencedor(int i){
 int Categoria::obtemIndiceFilmeVencedor(){
   int i=0;
   for (vector<Filme*>::iterator it = filmes.begin ();it!= filmes.end();++it){
-    if(filmes[i]->obtemNumPremiacoes() ==1 )return i;
+    if(filmes[i]->obtemNumPremiacoes() >=1 )return i;
     i++;
   }
   return -1;
 }
 Filme *Categoria::obtemFilmeVencedor(){
   int i=0;
-  for (vector<Filme*>::iterator it = filmes.begin ();it!= filmes.end();++it){
-    if(filmes[i]->obtemNumPremiacoes() == 1 )return filmes[i];
-    i++;
+  for(int i=0;i<filmes.size();i++){
+    if(filmes[i]->obtemNumPremiacoes() >= 1 )return filmes[i];
   }
   return nullptr;
 }
@@ -94,5 +94,5 @@ string Categoria::geraCSV(){
   return csv.str();
 }
 bool Categoria::operator ==(Categoria &c){
-  return c.nome == nome && c.ano == ano && c.tipo == tipo;
+  return c.vencedor;
 }
