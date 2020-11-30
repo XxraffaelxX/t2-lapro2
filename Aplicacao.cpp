@@ -119,33 +119,54 @@ void Aplicacao::relatorioVencedores(){
   cout<<endl<<"Relatório dos Vencedores:" <<endl<<endl;
   for(int i=0;i<categorias.size();++i){
     aux = categorias[i]->obtemFilmeVencedor(); //adiciona o filme vencedor em aux
-    cout<<aux->obtemNome()<<endl;
+    cout<<categorias[i]->obtemNome()<<" = "<<aux->obtemNome()<<endl;
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }
 
+static bool compara(Filme *x,Filme *y){
+  return x->obtemNumIndicacoes() > y->obtemNumIndicacoes();
+}
+
 void Aplicacao::relatorioIndicacoes(){
-  int i=0,j=0;
+  int i=0,j=0,k=0;
   vector<Filme *> aux;
-  Categoria *ca;
-  cout<<endl<<"Relatório dos Indicacoes:" <<endl<<endl;
-  for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
-    ca = categorias[i];
-    while(categorias[i]->obtemFilme(j)!=nullptr){
-      aux.push_back(categorias[i]->obtemFilme(j)); //adiciona o filme c/ indicacao em aux
-      //utilizar multi-set
-      j++;
-    }
+  Filme *NomeFilmeTemp;
+  cout<<endl<<"Relatório das Indicacoes:" <<endl<<endl;
+  for(i=0;i<categorias.size();++i){
+      if(aux.size() == 0)aux.push_back(categorias[i]->obtemFilme(j));
+      while(1){
+        NomeFilmeTemp = categorias[i]->obtemFilme(j);
+        if(NomeFilmeTemp == nullptr)break;
+        cout<<"nome do filme = "<<NomeFilmeTemp->obtemNome()<<" j = "<<j<<endl;
+        //cout<<"Filmes que ja tem no aux="<<aux[k]->obtemNome()<<endl;
+        if(aux[k] == nullptr){
+          cout<<"vim ver essa porra"<<endl;
+          aux.push_back(categorias[i]->obtemFilme(j));
+        }
+        if(NomeFilmeTemp->obtemNome() == aux[k]->obtemNome()){
+          cout<<"vim aqui acrescentar"<<endl;
+          aux[k]->maisUmaIndicacao();
+        }
+        else{
+          cout<<"vim adicionar"<<endl;
+          aux.push_back(categorias[i]->obtemFilme(j));
+          cout<<"consegui adicionar!"<<endl;
+        }
+        j++;
+        k++;
+      }
+      k=0;
       j=0;
       i++;
   }
-  //multiset<Filme*> multiset (aux.begin(),aux.end());
-
   
+  //sort(aux.begin(),aux.end(),compara);
+
   i=0;
   for(vector<Filme*>::iterator it = aux.begin ();it!= aux.end();++it){
     if(it+1 == aux.end()-1)break;
-    cout<<aux[i]->str()<<";"<<aux[i]->obtemNumPremiacoes()<<endl;
+    cout<<aux[i]->str()<<";"<<aux[i]->obtemNumIndicacoes()<<endl;
     i++;
   }
   cout<<endl<<"|*********************************************|"<<endl;
