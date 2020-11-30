@@ -4,6 +4,7 @@
 #include "FilmeComplemento.hpp"
 #include <algorithm>
 #include <vector>
+#include <set>
 
 using namespace std;
 
@@ -118,7 +119,7 @@ void Aplicacao::relatorioVencedores(){
   cout<<endl<<"Relatório dos Vencedores:" <<endl<<endl;
   for(int i=0;i<categorias.size();++i){
     aux = categorias[i]->obtemFilmeVencedor(); //adiciona o filme vencedor em aux
-    if(aux != nullptr)cout<<aux->obtemNome()<<endl;
+    cout<<aux->obtemNome()<<endl;
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }
@@ -126,19 +127,21 @@ void Aplicacao::relatorioVencedores(){
 void Aplicacao::relatorioIndicacoes(){
   int i=0,j=0;
   vector<Filme *> aux;
+  Categoria *ca;
   cout<<endl<<"Relatório dos Indicacoes:" <<endl<<endl;
   for(vector<Categoria*>::iterator it = categorias.begin ();it!= categorias.end();++it){
+    ca = categorias[i];
     while(categorias[i]->obtemFilme(j)!=nullptr){
       aux.push_back(categorias[i]->obtemFilme(j)); //adiciona o filme c/ indicacao em aux
+      //utilizar multi-set
       j++;
-    }    
-    sort(aux.begin(),aux.end());
-    //sort(aux.begin(),aux.end(),categorias[i]->operator==(*categorias[i]));//sorteia
+    }
       j=0;
       i++;
   }
-  //sort(aux.begin(),aux.end());//sorteia
-  //cout<<std::is_sorted(aux.begin(),aux.end())<<endl;
+  //multiset<Filme*> multiset (aux.begin(),aux.end());
+
+  
   i=0;
   for(vector<Filme*>::iterator it = aux.begin ();it!= aux.end();++it){
     if(it+1 == aux.end()-1)break;
