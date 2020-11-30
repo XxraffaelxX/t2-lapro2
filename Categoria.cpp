@@ -41,7 +41,8 @@ string Categoria::str(){
       ss<<obtemAno()<<")"<<endl;   
     return ss.str();
 }
-void Categoria::adicionaFilme(Filme *f,bool v){  
+void Categoria::adicionaFilme(Filme *f,bool v){ 
+  f->maisUmaIndicacao(); 
   filmes.push_back(f);  
   if(v == true){
     for(int i=0;i<filmes.size();i++){

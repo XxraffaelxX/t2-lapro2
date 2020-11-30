@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <set>
+#include <unistd.h>
 
 using namespace std;
 
@@ -131,43 +132,33 @@ static bool compara(Filme *x,Filme *y){
 void Aplicacao::relatorioIndicacoes(){
   int i=0,j=0,k=0;
   vector<Filme *> aux;
-  Filme *NomeFilmeTemp;
-  cout<<endl<<"Relatório das Indicacoes:" <<endl<<endl;
-  for(i=0;i<categorias.size();++i){
-      if(aux.size() == 0)aux.push_back(categorias[i]->obtemFilme(j));
-      while(1){
-        NomeFilmeTemp = categorias[i]->obtemFilme(j);
-        if(NomeFilmeTemp == nullptr)break;
-        cout<<"nome do filme = "<<NomeFilmeTemp->obtemNome()<<" j = "<<j<<endl;
-        //cout<<"Filmes que ja tem no aux="<<aux[k]->obtemNome()<<endl;
-        if(aux[k] == nullptr){
-          cout<<"vim ver essa porra"<<endl;
-          aux.push_back(categorias[i]->obtemFilme(j));
-        }
-        if(NomeFilmeTemp->obtemNome() == aux[k]->obtemNome()){
-          cout<<"vim aqui acrescentar"<<endl;
+  Filme*NomeAux;
+  for(i=0;i<categorias[0]->numFilmes();++i) // adiciona os primeiros filmes
+    aux.push_back(categorias[0]->obtemFilme(i));
+  
+  
+  for(i=1;i<categorias.size();i++){
+    while(j<categorias[i]->numFilmes()){
+      NomeAux = categorias[i]->obtemFilme(j);
+      while(k<aux.size()){
+        if(NomeAux->obtemNome() == aux[k]->obtemNome()){
           aux[k]->maisUmaIndicacao();
+          break;
         }
-        else{
-          cout<<"vim adicionar"<<endl;
-          aux.push_back(categorias[i]->obtemFilme(j));
-          cout<<"consegui adicionar!"<<endl;
-        }
-        j++;
         k++;
       }
+      if(k == aux.size())aux.push_back(NomeAux);
       k=0;
-      j=0;
-      i++;
+      j++;
+    }
+    j=0;
   }
   
-  //sort(aux.begin(),aux.end(),compara);
+  sort(aux.begin(),aux.end(),compara);
 
   i=0;
-  for(vector<Filme*>::iterator it = aux.begin ();it!= aux.end();++it){
-    if(it+1 == aux.end()-1)break;
-    cout<<aux[i]->str()<<";"<<aux[i]->obtemNumIndicacoes()<<endl;
-    i++;
+  for(i=0;i<aux.size();i++){
+    cout<<aux[i]->str()<<";\t"<<aux[i]->obtemNumIndicacoes()<<endl;
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }

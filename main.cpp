@@ -165,8 +165,8 @@ void inicializacao(Aplicacao *app) {
     app->adicionaCategoria(c);
     
     c = new Categoria("Melhor Mixagem de Som",2020);
-    c->adicionaFilme(new Filme("Ad Astra "),false);
-    c->adicionaFilme(new Filme("Ford vs Ferrari "),false);
+    c->adicionaFilme(new Filme("Ad Astra"),false);
+    c->adicionaFilme(new Filme("Ford vs Ferrari"),false);
     c->adicionaFilme(new Filme("1917"),true);
     c->adicionaFilme(new Filme("Coringa"),false);
     c->adicionaFilme(new Filme("Era Uma Vez em... Hollywood"),false);
