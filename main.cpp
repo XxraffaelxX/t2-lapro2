@@ -210,14 +210,14 @@ int main() {
     
     app = new Aplicacao();
     inicializacao(app);
-    //app->salvaCSV("oscar2021.csv");
-    //delete app;
+    app->salvaCSV("oscar2021.csv");
+    delete app;
 
-    //app = new Aplicacao();
-    //app->carregaCSV("oscar2020.csv");
-    //app->relatorioVencedores();
+    app = new Aplicacao();
+    app->carregaCSV("oscar2020.csv");
+    app->relatorioVencedores();
     app->relatorioIndicacoes();
-    //app->relatorioPremiacoes();
+    app->relatorioPremiacoes();
     delete app;
     
     return 0;

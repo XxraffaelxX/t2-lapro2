@@ -129,13 +129,17 @@ static bool compara(Filme *x,Filme *y){
   return x->obtemNumIndicacoes() > y->obtemNumIndicacoes();
 }
 
+static bool compara_Premi(Filme *x,Filme *y){
+  return x->obtemNumPremiacoes() > y->obtemNumPremiacoes();
+}
+
+
 void Aplicacao::relatorioIndicacoes(){
   int i=0,j=0,k=0;
   vector<Filme *> aux;
   Filme*NomeAux;
   for(i=0;i<categorias[0]->numFilmes();++i) // adiciona os primeiros filmes
-    aux.push_back(categorias[0]->obtemFilme(i));
-  
+    aux.push_back(categorias[0]->obtemFilme(i));  
   
   for(i=1;i<categorias.size();i++){
     while(j<categorias[i]->numFilmes()){
@@ -156,13 +160,39 @@ void Aplicacao::relatorioIndicacoes(){
   
   sort(aux.begin(),aux.end(),compara);
 
-  i=0;
+  cout<<endl<<"Relatório das Indicações:" <<endl<<endl;
   for(i=0;i<aux.size();i++){
-    cout<<aux[i]->str()<<";\t"<<aux[i]->obtemNumIndicacoes()<<endl;
+    cout<<aux[i]->str()<<",teve\t"<<aux[i]->obtemNumIndicacoes()<<" Indicação(ões)"<<endl<<endl;
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }
 
 void Aplicacao::relatorioPremiacoes(){
+  int i=0,j=0,k=0,i_vencedor=0;
+  vector<Filme *> aux;
+  Filme*NomeAux;
   
+  for(i=0;i<categorias.size();i++){
+    i_vencedor = categorias[i]->obtemIndiceFilmeVencedor();
+    NomeAux = categorias[i]->obtemFilme(i_vencedor);
+    while(j<aux.size()){
+      if(aux[j]->obtemNome() == NomeAux->obtemNome() ){
+        aux[j]->maisUmaPremiacao();
+        j=0;
+        break;
+      }
+      j++;
+    }
+    if(j == aux.size())aux.push_back(NomeAux);
+    j=0;
+  }
+
+  sort(aux.begin(),aux.end(),compara_Premi);
+
+  cout<<endl<<"Relatório das Premiações:" <<endl<<endl;
+
+  for(i=0;i<aux.size();i++){
+    cout<<aux[i]->str()<<", Teve \t"<<aux[i]->obtemNumPremiacoes()<<" Premiação(ões)"<<endl<<endl;
+  }
+  cout<<endl<<"|*********************************************|"<<endl;
 }

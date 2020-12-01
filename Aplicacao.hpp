@@ -20,7 +20,6 @@ public:
     void relatorioVencedores();
     void relatorioIndicacoes();
     void relatorioPremiacoes();
-    //static bool compara(Filme *y,Filme *x);
 };
 
 #endif
