@@ -5,6 +5,7 @@
 
 #include <string>
 #include "Categoria.hpp"
+#include "FilmeComplemento.hpp"
 
 using namespace std;
 
