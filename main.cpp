@@ -210,7 +210,7 @@ int main() {
     
     app = new Aplicacao();
     inicializacao(app);
-    app->salvaCSV("oscar2021.csv");
+    app->salvaCSV("oscar2020.csv");
     delete app;
 
     app = new Aplicacao();

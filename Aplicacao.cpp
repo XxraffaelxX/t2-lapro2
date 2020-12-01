@@ -4,8 +4,7 @@
 #include "FilmeComplemento.hpp"
 #include <algorithm>
 #include <vector>
-#include <set>
-#include <unistd.h>
+
 
 using namespace std;
 
@@ -47,6 +46,7 @@ bool Aplicacao::carregaCSV(string nomeArquivo){
     while(!fp.eof()){
       flag=0;
       getline(fp,aux); // pega a linha do arq
+      if(aux == "")return true; // qndo pega a linha em branco retorna
       //cout<<aux<<endl;
       i=0;
       j=i; // j pega o valor atual de i 
