@@ -45,12 +45,9 @@ bool Aplicacao::carregaCSV(string nomeArquivo){
     while(!fp.eof()){
       flag=0;
       getline(fp,aux); // pega a linha do arq
-      if(aux == "")return true; // qndo pega a linha em branco retorna
-      //cout<<aux<<endl;
+      if(aux == "")break; // qndo pega a linha em branco retorna
       i=0;
       j=i; // j pega o valor atual de i 
-      while(1){ // enquanto for diferente do quebra de linha
-        //cout<<"1- aux[i]= "<<aux[i]<<endl;
         while(aux[i]!=';')i++; // nome da categ
         categ.assign(aux,j,i);
         i++;
@@ -76,39 +73,38 @@ bool Aplicacao::carregaCSV(string nomeArquivo){
         }
           if(comple == "1"){ // se tiver complemento
             while(aux[i]!= '#')i++;
-              filme.assign(aux,j,i-j); 
-              //cout<<"1- peguei o filme = "<<filme<<endl;
+              filme.assign(aux,j,i-j);
               i++;
               j=i;
-              //i++;
               while(aux[i]!= ';') i++;
               string define_complemento;
-              define_complemento.assign(aux,j,i-j); // 
-              //cout<<"aux = "<<aux[i]<<endl;
-              
+              define_complemento.assign(aux,j,i-j); 
+              i++;              
               if( aux[i] == '1'){ // é vencedor da categoria
                 c->adicionaFilme(new FilmeComplemento(filme,define_complemento),true);
+                continue;
               }
-              else{ // não é vencedor da categoria
+              if(aux[i] == '0'){ // não é vencedor da categoria
                 c->adicionaFilme(new FilmeComplemento(filme,define_complemento),false);
+                continue;
               }
-          }
+            }
           else{
             while(aux[i]!= ';')i++;
               filme.assign(aux,j,i-j);
-              //cout<<"2- peguei o filme = "<<filme<<endl;
               i++; 
               j=i;
-              //cout<<"aux[i] = "<<aux[i]<<endl;
+              //if(filme == "Parasita")cout<<"2) aux[i]="<<aux[i]<<" e aux[i+1]="<<aux[i+1]<<endl;
               if( aux[i] == '1'){ // é vencedor da categoria
                 c->adicionaFilme(new Filme(filme),true);
+                continue;
               }
-              else{ // não é vencedor da categoria
+              if(aux[i] == '0'){ // não é vencedor da categoria
                 c->adicionaFilme(new Filme(filme),false);
+                continue;
               }
-          }
+            }
           break; // terminou de pegar a linha aqui
-      }
     }
   }
   return true;
@@ -119,7 +115,7 @@ void Aplicacao::relatorioVencedores(){
   cout<<endl<<"Relatório dos Vencedores:" <<endl<<endl;
   for(int i=0;i<categorias.size();++i){
     aux = categorias[i]->obtemFilmeVencedor(); //adiciona o filme vencedor em aux
-    cout<<categorias[i]->obtemNome()<<" = "<<aux->obtemNome()<<endl;
+    cout<<categorias[i]->str()<<" = "<<aux->str()<<endl;
   }
   cout<<endl<<"|*********************************************|"<<endl;
 }
@@ -170,8 +166,12 @@ void Aplicacao::relatorioPremiacoes(){
   int i=0,j=0,k=0,i_vencedor=0;
   vector<Filme *> aux;
   Filme*NomeAux;
+
+  for(i=0;i<categorias[0]->numFilmes();++i) // adiciona os primeiros filmes
+    aux.push_back(categorias[0]->obtemFilme(i));
   
-  for(i=0;i<categorias.size();i++){
+  
+  for(i=1;i<categorias.size();i++){
     i_vencedor = categorias[i]->obtemIndiceFilmeVencedor();
     NomeAux = categorias[i]->obtemFilme(i_vencedor);
     while(j<aux.size()){
@@ -182,7 +182,9 @@ void Aplicacao::relatorioPremiacoes(){
       }
       j++;
     }
-    if(j == aux.size())aux.push_back(NomeAux);
+    if(j == aux.size()){
+      aux.push_back(NomeAux);
+    }    
     j=0;
   }
 

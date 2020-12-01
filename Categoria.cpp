@@ -38,20 +38,20 @@ int Categoria::obtemTipo(){
 string Categoria::str(){
   stringstream ss;
       ss<<obtemNome()<<"  (";
-      ss<<obtemAno()<<")"<<endl;   
+      ss<<obtemAno()<<")";   
     return ss.str();
 }
 void Categoria::adicionaFilme(Filme *f,bool v){ 
   f->maisUmaIndicacao(); 
   filmes.push_back(f);  
   if(v == true){
-    f->maisUmaPremiacao();
     for(int i=0;i<filmes.size();i++){
       if(filmes[i]->obtemNome() == f->obtemNome()){
         vencedor = i;
         break;
       }
-    }
+    }    
+    f->maisUmaPremiacao();
   }
 }
 int Categoria::numFilmes(){

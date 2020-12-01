@@ -26,5 +26,3 @@ run:		${EXECUTAVEL}
 
 clean:
 		@rm -f Filme.o FilmeComplemento.o Categoria.o Aplicacao.o main.o ${EXECUTAVEL}
-
-    
